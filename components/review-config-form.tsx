@@ -63,7 +63,14 @@ export function ReviewConfigForm({
     if (Number.isFinite(n)) set(key, n);
   }
 
-  function setBooleano(key: "trigger_on_assign" | "trigger_on_reviewer" | "trigger_on_mention", raw: string) {
+  function setBooleano(
+    key:
+      | "trigger_on_assign"
+      | "trigger_on_reviewer"
+      | "trigger_on_mention"
+      | "unassign_after_review",
+    raw: string,
+  ) {
     if (raw === "") return set(key, undefined);
     set(key, raw === "true");
   }
@@ -191,9 +198,18 @@ export function ReviewConfigForm({
             ["trigger_on_assign", "Al asignar el bot"],
             ["trigger_on_reviewer", "Al añadirlo como reviewer"],
             ["trigger_on_mention", "Al mencionarlo en un comentario"],
+            ["unassign_after_review", "Desasignarse al terminar"],
           ] as const
         ).map(([key, label]) => (
-          <Field key={key} label={label}>
+          <Field
+            key={key}
+            label={label}
+            hint={
+              key === "unassign_after_review"
+                ? "El bot se quita del MR tras comentar, así un push nuevo no lo vuelve a disparar"
+                : undefined
+            }
+          >
             <select
               value={value[key] === undefined ? "" : String(value[key])}
               disabled={disabled}

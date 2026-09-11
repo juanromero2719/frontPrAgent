@@ -31,6 +31,7 @@ export type ReviewConfig = {
   trigger_on_reviewer?: boolean;
   trigger_on_mention?: boolean;
   trigger_command?: string;
+  unassign_after_review?: boolean;
 };
 
 export type Server = {
